@@ -7,9 +7,11 @@ export const load: PageLoad = async ({ url, fetch }) => {
   const sb = url.searchParams.get('sb');
   const fa = url.searchParams.get('fa');
   const c = url.searchParams.get('c');
+  const sp = url.searchParams.get('sp');
   if (sb) u.searchParams.set('sb', sb);
   if (fa) u.searchParams.set('fa', fa);
   if (c) u.searchParams.set('c', c);
+  if (sp) u.searchParams.set('sp', sp);
   const data = await fetchSearch(fetch, u.toString());
   return { data, q };
 };
