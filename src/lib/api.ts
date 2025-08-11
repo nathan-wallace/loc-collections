@@ -3,13 +3,16 @@ import { toIIIFLargest, looksLikeIIIF } from './utils/iiif';
 
 const BASE = 'https://www.loc.gov';
 
-async function fetchJSON<T>(url: string, opts: { signal?: AbortSignal; retries?: number } = {}): Promise<T> {
-  const { signal, retries = 2 } = opts;
+async function fetchJSON<T>(
+  url: string,
+  opts: { fetch?: typeof fetch; signal?: AbortSignal; retries?: number } = {}
+): Promise<T> {
+  const { fetch: fetcher = fetch, signal, retries = 2 } = opts;
   let attempt = 0;
   let lastErr: unknown;
   while (attempt <= retries) {
     try {
-      const res = await fetch(url, { signal, headers: { 'Accept': 'application/json' } });
+      const res = await fetcher(url, { signal, headers: { 'Accept': 'application/json' } });
       if (!res.ok) {
         if ([429, 502, 503, 504].includes(res.status) && attempt < retries) {
           const wait = 500 * Math.pow(2, attempt);
@@ -29,31 +32,47 @@ async function fetchJSON<T>(url: string, opts: { signal?: AbortSignal; retries?:
   throw lastErr instanceof Error ? lastErr : new Error(String(lastErr));
 }
 
-export async function fetchCollections(url?: string, signal?: AbortSignal): Promise<SearchResponse> {
+export async function fetchCollections(
+  fetcher: typeof fetch = fetch,
+  url?: string,
+  signal?: AbortSignal
+): Promise<SearchResponse> {
   const u = url ?? `${BASE}/collections/?fo=json&at=results,pagination,facets`;
-  return fetchJSON<SearchResponse>(u, { signal });
+  return fetchJSON<SearchResponse>(u, { fetch: fetcher, signal });
 }
 
-export async function fetchCollectionItems(url: string, signal?: AbortSignal): Promise<SearchResponse> {
+export async function fetchCollectionItems(
+  fetcher: typeof fetch = fetch,
+  url: string,
+  signal?: AbortSignal
+): Promise<SearchResponse> {
   const u = new URL(url, BASE);
   const at = u.searchParams.get('at');
   if (!at) u.searchParams.set('at', 'results,pagination,facets');
   if (!u.searchParams.get('fo')) u.searchParams.set('fo', 'json');
-  return fetchJSON<SearchResponse>(u.toString(), { signal });
+  return fetchJSON<SearchResponse>(u.toString(), { fetch: fetcher, signal });
 }
 
-export async function fetchSearch(url: string, signal?: AbortSignal): Promise<SearchResponse> {
+export async function fetchSearch(
+  fetcher: typeof fetch = fetch,
+  url: string,
+  signal?: AbortSignal
+): Promise<SearchResponse> {
   const u = new URL(url, BASE);
   if (!u.pathname.startsWith('/search')) u.pathname = '/search/';
   if (!u.searchParams.get('fo')) u.searchParams.set('fo', 'json');
   if (!u.searchParams.get('at')) u.searchParams.set('at', 'results,pagination,facets');
-  return fetchJSON<SearchResponse>(u.toString(), { signal });
+  return fetchJSON<SearchResponse>(u.toString(), { fetch: fetcher, signal });
 }
 
-export async function fetchItem(itemUrl: string, signal?: AbortSignal): Promise<ItemResponse> {
+export async function fetchItem(
+  fetcher: typeof fetch = fetch,
+  itemUrl: string,
+  signal?: AbortSignal
+): Promise<ItemResponse> {
   const u = new URL(itemUrl.replace('http://', 'https://'));
   u.searchParams.set('fo', 'json');
-  return fetchJSON<ItemResponse>(u.toString(), { signal });
+  return fetchJSON<ItemResponse>(u.toString(), { fetch: fetcher, signal });
 }
 
 export function bestImageFrom(obj: ItemResponse | { image_url?: string[] } | ResultItem): string | null {
