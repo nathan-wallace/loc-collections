@@ -4,7 +4,8 @@
   import Pagination from '$components/Pagination.svelte';
   export let data: { data: SearchResponse };
   export let params;
-  const collections = data.data.results ?? [];
+  let collections = data.data.results ?? [];
+  $: collections = data.data.results ?? [];
   function slugFromUrl(u: string): string {
     try {
       const { pathname } = new URL(u);
