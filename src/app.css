@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light dark; }
+html, body, #svelte { height: 100%; }
+
+:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+.skeleton { position: relative; overflow: hidden; }
+.skeleton::after {
+  content: "";
+  position: absolute; inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
+  animation: shimmer 1.2s infinite;
+}
+@media (prefers-reduced-motion: reduce) { .skeleton::after { animation: none; } }
+@keyframes shimmer { 100% { transform: translateX(100%); } }
