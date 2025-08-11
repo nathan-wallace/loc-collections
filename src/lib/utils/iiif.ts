@@ -1,6 +1,15 @@
 export function toIIIFLargest(url: string): string {
   if (!/\/iiif\//.test(url)) return url;
-  const u = new URL(url, 'https://');
+  // Some IIIF image URLs are protocol-relative (e.g. `//tile.loc.gov/...`).
+  // `new URL()` requires an absolute URL, so normalise these by prefixing
+  // a scheme before parsing. Using `https:` is fine as the Library of
+  // Congress serves images over HTTPS. The previous implementation attempted
+  // to supply a base of `"https://"`, which is an invalid base URL and
+  // caused `new URL()` to throw `TypeError: Failed to construct 'URL': Invalid
+  // base URL` when executed. By ensuring the string is absolute before
+  // constructing the URL object, we avoid the runtime error.
+  const normalized = url.startsWith('//') ? `https:${url}` : url;
+  const u = new URL(normalized);
   const path = u.pathname;
   const v3 = path.replace(/\/full\/[^/]+\/0\/(?:default|color|gray|bitonal)\.(jpg|png|webp)/,
     '/full/max/0/default.$1');
