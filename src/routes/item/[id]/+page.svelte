@@ -2,10 +2,12 @@
   import type { ItemResponse } from '$lib/types';
   import SaveButton from '$components/SaveButton.svelte';
   export let data: { data: ItemResponse; cover: string | null; canonical: string };
+  export let params;
   const item = data.data.item ?? (data.data as any);
   const title = item?.title ?? 'Untitled';
   const summary = { id: data.canonical, title, thumb: data.cover ?? undefined, date: item?.date ?? null };
   const resources: { url?: string }[] | undefined = (data.data as any).resources;
+  void params;
 </script>
 <a class="text-sm opacity-70 hover:opacity-100" href={document.referrer || '/'}>← Back</a>
 <header class="mt-2 flex items-center justify-between gap-3">

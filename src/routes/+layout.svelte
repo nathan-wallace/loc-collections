@@ -1,8 +1,10 @@
 <script lang="ts">
   export let data;
+  export let params;
   import { onMount } from 'svelte';
   import SearchBar from '../components/SearchBar.svelte';
   void data;
+  void params;
   onMount(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js', { type: 'module' }).catch(console.warn);

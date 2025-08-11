@@ -3,6 +3,7 @@
   import CollectionCard from '$components/CollectionCard.svelte';
   import Pagination from '$components/Pagination.svelte';
   export let data: { data: SearchResponse };
+  export let params;
   const collections = data.data.results ?? [];
   function slugFromUrl(u: string): string {
     try {
@@ -13,6 +14,7 @@
     } catch {}
     return '';
   }
+  void params;
 </script>
 <h1 class="text-2xl font-semibold mb-2">Explore Collections</h1>
 <p class="mb-6 text-neutral-600 dark:text-neutral-300">Browse digitized collections. Click a card to dive in, then scroll to load more.</p>

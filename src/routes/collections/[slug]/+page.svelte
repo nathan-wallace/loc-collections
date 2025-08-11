@@ -5,6 +5,7 @@
   import Skeletons from '$components/Skeletons.svelte';
   import { onMount } from 'svelte';
   export let data: { data: SearchResponse; apiUrl: string };
+  export let params;
   let items = data.data.results ?? [];
   let next = data.data.pagination?.next ?? null;
   let loading = false;
@@ -40,6 +41,7 @@
     if (sb) u.searchParams.set('sb', sb); else u.searchParams.delete('sb');
     location.assign(u.toString());
   }
+  void params;
 </script>
 <header class="mb-4 flex items-center justify-between gap-3">
   <h1 class="text-xl font-semibold">Collection Items</h1>
