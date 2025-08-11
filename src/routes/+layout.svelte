@@ -3,6 +3,7 @@
   export let params;
   import { onMount } from 'svelte';
   import SearchBar from '../components/SearchBar.svelte';
+  import '../app.css';
   void data;
   void params;
   onMount(() => {
