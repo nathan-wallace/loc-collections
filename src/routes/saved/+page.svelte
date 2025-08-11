@@ -1,4 +1,6 @@
 <script lang="ts">
+  export let data;
+  export let params;
   import { favorites } from '$lib/stores/favorites';
   import { get } from 'svelte/store';
   $: fav = get(favorites);
