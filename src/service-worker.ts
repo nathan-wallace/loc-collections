@@ -55,10 +55,21 @@ self.addEventListener('message', (event: ExtendableMessageEvent) => {
   if (data?.type === 'cache-item') {
     const item = data.payload as { id: string; thumb?: string | null };
     // `new URL()` requires an absolute URL. `item.id` should already be
-    // absolute, but normalise protocol-relative IDs just in case to avoid
-    // `TypeError: Failed to construct 'URL': Invalid base URL`.
+    // absolute, but normalise protocol-relative IDs just in case. If the ID
+    // still can't be parsed, fall back to assuming it belongs to loc.gov; if
+    // that also fails, skip caching.
     const id = item.id.startsWith('//') ? `https:${item.id}` : item.id;
-    const jsonUrl = new URL(id);
+    let jsonUrl: URL;
+    try {
+      jsonUrl = new URL(id);
+    } catch {
+      try {
+        jsonUrl = new URL(id, 'https://www.loc.gov');
+      } catch {
+        console.warn('Cannot cache item with invalid id', id);
+        return;
+      }
+    }
     jsonUrl.searchParams.set('fo', 'json');
     event.waitUntil((async () => {
       const cache = await caches.open(CACHE);
