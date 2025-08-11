@@ -22,8 +22,8 @@
       <CollectionCard
         title={c.title ?? 'Untitled'}
         slug={slugFromUrl(c.id)}
-        description={(c as any).description?.[0] ?? null}
-        hero={(c as any).image_url?.[0] ?? null}
+        description={c.description?.[0] ?? null}
+        hero={c.image_url?.[0] ?? null}
       />
     {/each}
   </div>

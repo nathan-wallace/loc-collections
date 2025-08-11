@@ -14,17 +14,19 @@
       return `${location.pathname}${q ? `?${q}` : ''}`;
     } catch { return href; }
   }
+  $: prev = normalize(pagination?.previous ?? null);
+  $: next = normalize(pagination?.next ?? null);
 </script>
 {#if pagination}
   <nav class="flex items-center justify-between mt-4" aria-label="Pagination">
-    {#if normalize(pagination.previous)}
-      <a class="px-3 py-1 rounded-lg border" href={normalize(pagination.previous)!}>Prev</a>
+    {#if prev}
+      <a class="px-3 py-1 rounded-lg border" href={prev}>Prev</a>
     {:else}
       <span class="px-3 py-1 rounded-lg border opacity-50 select-none">Prev</span>
     {/if}
     <span class="text-sm text-neutral-600 dark:text-neutral-300">Page {pagination.current} of {pagination.total}</span>
-    {#if normalize(pagination.next)}
-      <a class="px-3 py-1 rounded-lg border" href={normalize(pagination.next)!}>Next</a>
+    {#if next}
+      <a class="px-3 py-1 rounded-lg border" href={next}>Next</a>
     {:else}
       <span class="px-3 py-1 rounded-lg border opacity-50 select-none">Next</span>
     {/if}

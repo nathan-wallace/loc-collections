@@ -33,18 +33,20 @@
     if (sentinel) io.observe(sentinel);
     return () => io.disconnect();
   });
+
+  function updateSort(e: Event) {
+    const sb = (e.currentTarget as HTMLSelectElement).value;
+    const u = new URL(location.href);
+    if (sb) u.searchParams.set('sb', sb); else u.searchParams.delete('sb');
+    location.assign(u.toString());
+  }
 </script>
 <header class="mb-4 flex items-center justify-between gap-3">
   <h1 class="text-xl font-semibold">Collection Items</h1>
   <div class="flex items-center gap-2">
     <label class="text-sm">
       Sort:
-      <select class="ml-2 rounded border bg-transparent px-2 py-1" on:change={(e) => {
-        const sb = (e.currentTarget as HTMLSelectElement).value;
-        const u = new URL(location.href);
-        if (sb) u.searchParams.set('sb', sb); else u.searchParams.delete('sb');
-        location.assign(u.toString());
-      }}>
+      <select class="ml-2 rounded border bg-transparent px-2 py-1" on:change={updateSort}>
         <option value="">Relevance</option>
         <option value="date">Date ↑</option>
         <option value="date_desc">Date ↓</option>

@@ -8,7 +8,7 @@ export default {
     adapter: adapter(),
     alias: {
       $lib: 'src/lib',
-      $components: 'src/lib/components'
+      $components: 'src/components'
     }
   }
 };

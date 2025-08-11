@@ -22,7 +22,7 @@
         <a class="block rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800" href={`/item/${encodeURIComponent(btoa(id))}`}>
           <div class="aspect-[4/3] bg-neutral-100 dark:bg-neutral-800">
             {#if fav.byId[id].thumb}
-              <img src={fav.byId[id].thumb!} alt={fav.byId[id].title} class="w-full h-full object-cover" loading="lazy" />
+              <img src={fav.byId[id].thumb} alt={fav.byId[id].title} class="w-full h-full object-cover" loading="lazy" />
             {:else}
               <img src="/placeholder.svg" alt="No image" class="w-full h-full object-cover" loading="lazy" />
             {/if}
