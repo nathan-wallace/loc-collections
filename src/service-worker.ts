@@ -50,7 +50,11 @@ self.addEventListener('message', (event: ExtendableMessageEvent) => {
   const data = (event as any).data as any;
   if (data?.type === 'cache-item') {
     const item = data.payload as { id: string; thumb?: string | null };
-    const jsonUrl = new URL(item.id, 'https://');
+    // `new URL()` requires an absolute URL. `item.id` should already be
+    // absolute, but normalise protocol-relative IDs just in case to avoid
+    // `TypeError: Failed to construct 'URL': Invalid base URL`.
+    const id = item.id.startsWith('//') ? `https:${item.id}` : item.id;
+    const jsonUrl = new URL(id);
     jsonUrl.searchParams.set('fo', 'json');
     event.waitUntil((async () => {
       const cache = await caches.open(CACHE);
