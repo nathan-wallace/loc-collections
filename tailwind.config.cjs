@@ -8,7 +8,19 @@ module.exports = {
   ],
   theme: {
     extend: {
-      container: { center: true, padding: '1rem' }
+      container: { center: true, padding: '1rem' },
+      fontFamily: {
+        sans: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'Noto Sans',
+          'sans-serif'
+        ]
+      }
     }
   },
   plugins: []

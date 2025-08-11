@@ -12,18 +12,18 @@
   });
 </script>
 <svelte:window on:keydown={(e) => { if (e.key === 'Escape') history.state && history.back(); }} />
-<div class="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50">
-  <header class="sticky top-0 z-40 backdrop-blur bg-white/70 dark:bg-neutral-950/70 border-b border-neutral-200 dark:border-neutral-800">
+<div class="flex min-h-screen flex-col bg-gradient-to-b from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-950">
+  <header class="sticky top-0 z-40 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800 shadow-sm">
     <div class="container flex items-center gap-3 py-3">
       <a href="/" class="font-semibold tracking-tight">LOC Collections</a>
-      <nav class="ml-auto flex items-center gap-3">
-        <a href="/saved" class="rounded-lg px-3 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800">Saved</a>
-        <a href="/search" class="rounded-lg px-3 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800">Search</a>
+      <nav class="ml-auto flex items-center gap-3 text-sm">
+        <a href="/saved" class="rounded-full px-3 py-1 transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800">Saved</a>
+        <a href="/search" class="rounded-full px-3 py-1 transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800">Search</a>
       </nav>
     </div>
     <div class="container py-3"><SearchBar /></div>
   </header>
-  <main class="container py-6"><slot /></main>
+  <main class="container flex-1 py-8"><slot /></main>
   <footer class="container py-10 text-sm text-neutral-600 dark:text-neutral-400">
     <p>Data from the Library of Congress JSON API. This is an unofficial demo.</p>
   </footer>
