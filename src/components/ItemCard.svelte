@@ -26,6 +26,6 @@
       <h4 class="font-medium truncate">{summary.title}</h4>
       {#if summary.date}<p class="text-xs text-neutral-600 dark:text-neutral-400">{summary.date}</p>{/if}
     </a>
-    <SaveButton {item}={summary} />
+    <SaveButton item={summary} />
   </div>
 </article>

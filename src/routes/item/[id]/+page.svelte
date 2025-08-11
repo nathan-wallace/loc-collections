@@ -5,6 +5,7 @@
   const item = data.data.item ?? (data.data as any);
   const title = item?.title ?? 'Untitled';
   const summary = { id: data.canonical, title, thumb: data.cover ?? undefined, date: item?.date ?? null };
+  const resources: { url?: string }[] | undefined = (data.data as any).resources;
 </script>
 <a class="text-sm opacity-70 hover:opacity-100" href={document.referrer || '/'}>← Back</a>
 <header class="mt-2 flex items-center justify-between gap-3">
@@ -34,11 +35,11 @@
         </div>
       </div>
     {/if}
-    {#if (data.data as any).resources?.length}
+    {#if resources?.length}
       <div>
         <h2 class="font-semibold mb-2">Resources</h2>
         <ul class="list-disc pl-6">
-          {#each (data.data as any).resources as r, i}
+          {#each resources as r, i}
             {#if r.url}<li><a class="text-blue-600 hover:underline" href={r.url} target="_blank" rel="noopener">Download / View resource {i + 1}</a></li>{/if}
           {/each}
         </ul>
