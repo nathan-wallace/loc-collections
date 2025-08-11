@@ -11,7 +11,10 @@ export function toIIIFLargest(url: string): string {
   const normalized = url.startsWith('//') ? `https:${url}` : url;
   const u = new URL(normalized);
   const path = u.pathname;
-  const v3 = path.replace(/\/full\/[^/]+\/0\/(?:default|color|gray|bitonal)\.(jpg|png|webp)/,
+  const pct = path.replace(/\/full\/pct:\d+\/0\/(?:default|color|gray|bitonal)\.(jpg|png|webp)/,
+    '/full/pct:100/0/default.$1');
+  if (pct !== path) { u.pathname = pct; return u.toString(); }
+  const v3 = path.replace(/\/full\/(?!pct:)[^/]+\/0\/(?:default|color|gray|bitonal)\.(jpg|png|webp)/,
     '/full/max/0/default.$1');
   if (v3 !== path) { u.pathname = v3; return u.toString(); }
   const v2 = path.replace(/\/full\/[^/]+\/0\/(?:default|native|color|gray)\.(jpg|png|webp)/,

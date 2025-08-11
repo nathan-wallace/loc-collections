@@ -1,8 +1,8 @@
 <script lang="ts">
   export let data;
-  export let params;
   import { favorites } from '$lib/stores/favorites';
   import { get } from 'svelte/store';
+  void data;
   $: fav = get(favorites);
   function clear() { if (confirm('Remove all saved items?')) favorites.clear(); }
 </script>

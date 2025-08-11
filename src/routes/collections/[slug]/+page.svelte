@@ -5,7 +5,6 @@
   import Skeletons from '$components/Skeletons.svelte';
   import { onMount } from 'svelte';
   export let data: { data: SearchResponse; apiUrl: string };
-  export let params;
   let items = data.data.results ?? [];
   let next = data.data.pagination?.next ?? null;
   let loading = false;

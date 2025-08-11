@@ -3,7 +3,6 @@
   import CollectionCard from '$components/CollectionCard.svelte';
   import Pagination from '$components/Pagination.svelte';
   export let data: { data: SearchResponse };
-  export let params;
   const collections = data.data.results ?? [];
   function slugFromUrl(u: string): string {
     try {
