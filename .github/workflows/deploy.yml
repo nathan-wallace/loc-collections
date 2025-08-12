@@ -23,13 +23,14 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      - run: npm install
       - run: npm run build
-      - run: mkdir -p dist && touch dist/.nojekyll
-
+        env:
+          BASE_PATH: /loc-collections
+      - run: touch build/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: build
 
   deploy:
     needs: build
