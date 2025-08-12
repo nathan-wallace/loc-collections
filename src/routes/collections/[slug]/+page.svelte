@@ -4,6 +4,8 @@
   import FacetFilter from '$components/FacetFilter.svelte';
   import Skeletons from '$components/Skeletons.svelte';
   import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
+  import { page } from '$app/state';
   export let data: { data: SearchResponse; apiUrl: string };
   export let params;
   let items = data.data.results ?? [];
@@ -37,9 +39,10 @@
 
   function updateSort(e: Event) {
     const sb = (e.currentTarget as HTMLSelectElement).value;
-    const u = new URL(location.href);
-    if (sb) u.searchParams.set('sb', sb); else u.searchParams.delete('sb');
-    location.assign(u.toString());
+    const params = new URLSearchParams(page.url.searchParams);
+    if (sb) params.set('sb', sb); else params.delete('sb');
+    const q = params.toString();
+    goto(`${page.url.pathname}${q ? `?${q}` : ''}`);
   }
   void params;
 </script>
