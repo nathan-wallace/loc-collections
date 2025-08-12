@@ -24,10 +24,10 @@
   <p class="text-neutral-600 dark:text-neutral-400">You haven’t saved anything yet.</p>
 {:else}
   <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-    {#each fav.ids as id}
+    {#each fav.ids as id (id)}
       {#if fav.byId[id]}
         {#if fav.byId[id].slug}
-          <a class="block rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800" href={`${base}/collections/${fav.byId[id].slug}`}>
+          <a class="block rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800" href={`${base}/collections/${fav.byId[id].slug}`}> 
             <div class="aspect-[4/3] bg-neutral-100 dark:bg-neutral-800">
               {#if fav.byId[id].thumb}
                 <img src={fav.byId[id].thumb} alt={fav.byId[id].title} class="w-full h-full object-cover" loading="lazy" />

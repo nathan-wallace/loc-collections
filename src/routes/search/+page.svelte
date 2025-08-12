@@ -12,7 +12,7 @@
 {#if data.data.facets}<FacetFilter facets={data.data.facets} />{/if}
 {#if data.data.results?.length}
   <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-    {#each data.data.results as item}<ItemCard {item} />{/each}
+    {#each data.data.results as item (item.id)}<ItemCard {item} />{/each}
   </div>
   <Pagination pagination={data.data.pagination} />
 {:else}
