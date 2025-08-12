@@ -68,4 +68,8 @@ export type ItemSummary = {
   title: string;
   thumb?: string | null;
   date?: string | null;
+  /** Slug is present when the summary represents a collection */
+  slug?: string;
 };
+
+export type CollectionSummary = ItemSummary & { slug: string };
