@@ -24,6 +24,7 @@
   <span class="relative z-10 text-lg leading-none">{#if saved}✓{:else}+{/if}</span>
   <span
     class="pointer-events-none absolute left-1/2 bottom-full mb-2 -translate-x-1/2 rounded bg-neutral-900 px-2 py-1 text-xs text-white opacity-0 transition-opacity duration-200 group-hover/save:opacity-100 group-focus/save:opacity-100"
+
   >
     {saved ? 'Saved' : 'Save'}
   </span>
