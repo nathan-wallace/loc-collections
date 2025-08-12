@@ -1,10 +1,11 @@
 <script lang="ts">
   import FullscreenImage from '$components/FullscreenImage.svelte';
+  import { base } from '$app/paths';
   export let data: { url: string | null; canonical: string; title: string };
   export let params;
   void params;
 </script>
-<a class="text-sm opacity-70 hover:opacity-100" href={`/item/${encodeURIComponent(btoa(data.canonical))}`}>← Back to item</a>
+<a class="text-sm opacity-70 hover:opacity-100" href={`${base}/item/${encodeURIComponent(btoa(data.canonical))}`}>← Back to item</a>
 {#if data.url}
   <h1 class="sr-only">{data.title}</h1>
   <FullscreenImage src={data.url} alt={data.title} />
