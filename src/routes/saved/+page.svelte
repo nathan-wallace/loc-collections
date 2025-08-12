@@ -3,6 +3,7 @@
   export let params;
   import { favorites } from '$lib/stores/favorites';
   import { get } from 'svelte/store';
+  import { base } from '$app/paths';
   void data;
   void params;
   $: fav = get(favorites);
@@ -13,7 +14,7 @@
   <div class="flex gap-2">
     <button class="rounded-lg border px-3 py-1" on:click={clear}>Clear All</button>
     {#if fav.ids.length}
-      <a class="rounded-lg border px-3 py-1" href={`/viewer/${encodeURIComponent(btoa(fav.ids[0]))}`}>Open First in Viewer</a>
+      <a class="rounded-lg border px-3 py-1" href={`${base}/viewer/${encodeURIComponent(btoa(fav.ids[0]))}`}>Open First in Viewer</a>
     {/if}
   </div>
 </header>
@@ -23,12 +24,12 @@
   <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     {#each fav.ids as id}
       {#if fav.byId[id]}
-        <a class="block rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800" href={`/item/${encodeURIComponent(btoa(id))}`}>
+        <a class="block rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800" href={`${base}/item/${encodeURIComponent(btoa(id))}`}> 
           <div class="aspect-[4/3] bg-neutral-100 dark:bg-neutral-800">
             {#if fav.byId[id].thumb}
               <img src={fav.byId[id].thumb} alt={fav.byId[id].title} class="w-full h-full object-cover" loading="lazy" />
             {:else}
-              <img src="/placeholder.svg" alt="No image" class="w-full h-full object-cover" loading="lazy" />
+              <img src={`${base}/placeholder.svg`} alt="No image" class="w-full h-full object-cover" loading="lazy" />
             {/if}
           </div>
           <div class="p-2 text-sm">

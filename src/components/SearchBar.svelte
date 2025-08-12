@@ -1,11 +1,12 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   export let initial = '';
   let q = initial;
   function onSubmit(e: Event) {
     e.preventDefault();
     const term = q?.trim();
-    if (term) goto(`/search?q=${encodeURIComponent(term)}`);
+    if (term) goto(`${base}/search?q=${encodeURIComponent(term)}`);
   }
 </script>
 <form class="relative" on:submit|preventDefault={onSubmit} role="search">

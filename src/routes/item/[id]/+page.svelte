@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ItemResponse } from '$lib/types';
   import SaveButton from '$components/SaveButton.svelte';
+  import { base } from '$app/paths';
   export let data: { data: ItemResponse; cover: string | null; canonical: string };
   export let params;
   const item = data.data.item ?? (data.data as any);
@@ -9,13 +10,13 @@
   const resources: { url?: string }[] | undefined = (data.data as any).resources;
   void params;
 </script>
-<a class="text-sm opacity-70 hover:opacity-100" href={document.referrer || '/'}>← Back</a>
+<a class="text-sm opacity-70 hover:opacity-100" href={document.referrer || base + '/'}>← Back</a>
 <header class="mt-2 flex items-center justify-between gap-3">
   <h1 class="text-2xl font-semibold">{title}</h1>
   <SaveButton item={summary} />
 </header>
 {#if data.cover}
-  <a href={`/viewer/${encodeURIComponent(btoa(summary.id))}`} class="block my-4" aria-label="Open fullscreen viewer">
+  <a href={`${base}/viewer/${encodeURIComponent(btoa(summary.id))}`} class="block my-4" aria-label="Open fullscreen viewer">
     <img src={data.cover} alt={title} class="w-full max-h-[60vh] object-contain rounded-xl bg-neutral-100 dark:bg-neutral-800" />
   </a>
 {/if}
@@ -32,7 +33,7 @@
         <h2 class="font-semibold mb-2">Subjects</h2>
         <div class="flex gap-2 flex-wrap">
           {#each (item.subjects ?? item.subject ?? []) as s}
-            <a href={`/search?fa=subject:${encodeURIComponent(s)}`} class="text-sm rounded-full border px-3 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800">{s}</a>
+            <a href={`${base}/search?fa=subject:${encodeURIComponent(s)}`} class="text-sm rounded-full border px-3 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800">{s}</a>
           {/each}
         </div>
       </div>
