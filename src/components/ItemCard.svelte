@@ -4,30 +4,37 @@
   import { bestImageFrom } from '$lib/api';
   import { base } from '$app/paths';
   export let item!: ResultItem;
-  const thumb = bestImageFrom(item);
-  const isCollection = item.id.includes('/collections/');
+  let thumb: string | undefined;
+  let isCollection: boolean;
   let summary: ItemSummary | CollectionSummary;
-  if (isCollection) {
-    const match = item.id.match(/\/collections\/([^/?#]+)/);
-    const slug = match ? match[1] : item.id;
-    summary = {
-      id: item.id.replace('http://', 'https://'),
-      title: item.title ?? 'Untitled',
-      slug,
-      thumb
-    } satisfies CollectionSummary;
-  } else {
-    summary = {
-      id: item.id.replace('http://', 'https://'),
-      title: item.title ?? 'Untitled',
-      date: item.date ?? null,
-      thumb
-    } satisfies ItemSummary;
+  let href: string;
+  let itemDate: string | null;
+
+  $: {
+    thumb = bestImageFrom(item);
+    isCollection = item.id.includes('/collections/');
+    if (isCollection) {
+      const match = item.id.match(/\/collections\/([^/?#]+)/);
+      const slug = match ? match[1] : item.id;
+      summary = {
+        id: item.id.replace('http://', 'https://'),
+        title: item.title ?? 'Untitled',
+        slug,
+        thumb
+      } satisfies CollectionSummary;
+    } else {
+      summary = {
+        id: item.id.replace('http://', 'https://'),
+        title: item.title ?? 'Untitled',
+        date: item.date ?? null,
+        thumb
+      } satisfies ItemSummary;
+    }
+    href = isCollection
+      ? `${base}/collections/${(summary as CollectionSummary).slug}`
+      : `${base}/item/${encodeURIComponent(btoa(summary.id))}`;
+    itemDate = isCollection ? null : (summary as ItemSummary).date;
   }
-  const href = isCollection
-    ? `${base}/collections/${(summary as CollectionSummary).slug}`
-    : `${base}/item/${encodeURIComponent(btoa(summary.id))}`;
-  const itemDate = isCollection ? null : (summary as ItemSummary).date;
 </script>
 <article class="overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/80 shadow-sm transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg">
   <a href={href} aria-label={`Open ${summary.title}`}>

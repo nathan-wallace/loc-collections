@@ -70,7 +70,7 @@
   </section>
 {/if}
 <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-  {#each items as item}<ItemCard {item} />{/each}
+  {#each items as item (item.id)}<ItemCard {item} />{/each}
 </section>
 {#if !done}
   <div bind:this={sentinel} class="h-12" aria-hidden="true" />

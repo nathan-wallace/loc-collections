@@ -21,7 +21,7 @@
 <p class="mb-6 text-neutral-600 dark:text-neutral-300">Browse digitized collections. Click a card to dive in, then scroll to load more.</p>
 {#if collections.length}
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    {#each collections as c}
+    {#each collections as c (c.id)}
       <CollectionCard
         id={c.id}
         title={c.title ?? 'Untitled'}

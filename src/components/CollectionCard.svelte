@@ -7,7 +7,9 @@
   export let slug: string;
   export let description: string | null = null;
   export let hero: string | null = null;
-  const summary: CollectionSummary = {
+  let summary: CollectionSummary;
+
+  $: summary = {
     id: id.replace('http://', 'https://'),
     title,
     slug,
