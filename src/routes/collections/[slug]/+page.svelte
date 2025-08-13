@@ -17,7 +17,7 @@
   let done = !next;
   let sentinel: HTMLDivElement;
   let showFacets = false;
-  let collectionTitle = data.data.title ?? slugToTitle(params.slug);
+  let collectionTitle = data.data.title ?? items[0]?.partof?.[0] ?? params.slug;
   let collectionDescription: string | null = Array.isArray((data.data as any).description)
     ? (data.data as any).description[0]
     : ((data.data as any).description ?? null);
