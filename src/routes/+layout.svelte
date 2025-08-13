@@ -22,13 +22,12 @@
       <a href={base + '/'} class="font-semibold tracking-tight">LOC Collections</a>
       <nav class="ml-auto flex items-center gap-3 text-sm">
         <a href={base + '/saved'} class="rounded-full px-3 py-1 transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800">Saved</a>
-        <a href={base + '/search'} class="rounded-full px-3 py-1 transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800">Search</a>
       </nav>
     </div>
     <div class="container py-3"><SearchBar /></div>
   </header>
   <main class="container flex-1 py-8"><slot /></main>
   <footer class="container py-10 text-sm text-neutral-600 dark:text-neutral-400">
-    <p>Data from the Library of Congress JSON API. This is an unofficial demo.</p>
+    <p>Data from the Library of Congress JSON API. This is an educational demo.</p>
   </footer>
 </div>

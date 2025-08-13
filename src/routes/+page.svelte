@@ -69,6 +69,8 @@
   void params;
 </script>
 <h1 class="text-2xl font-semibold mb-2">Explore Collections</h1>
+<p class="mb-6 text-neutral-600 dark:text-neutral-300">Browse digitized collections. Choose a collection to dive in, then just start scrolling!</p>
+
 {#if topicFacet || formatFacet}
   <div class="mb-4 flex flex-wrap gap-4">
     {#if topicFacet}
@@ -95,7 +97,6 @@
     {/if}
   </div>
 {/if}
-<p class="mb-6 text-neutral-600 dark:text-neutral-300">Browse digitized collections. Click a card to dive in, then scroll to load more.</p>
 {#if collections.length}
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {#each collections as c (c.id)}
