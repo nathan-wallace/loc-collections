@@ -5,6 +5,7 @@
   import Skeletons from '$components/Skeletons.svelte';
   import CollectionDetails from '$components/CollectionDetails.svelte';
   import { bestImageFrom } from '$lib/api';
+  import { slugToTitle } from '$lib/utils/strings';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { page } from '$app/state';
