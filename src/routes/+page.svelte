@@ -69,7 +69,7 @@
   void params;
 </script>
 <h1 class="text-2xl font-semibold mb-2">Explore Collections</h1>
-<p class="mb-6 text-neutral-600 dark:text-neutral-300">Browse digitized collections. Choose a collection to dive in, then just start scrolling!</p>
+<p class="mb-6 text-neutral-600 dark:text-neutral-300">Explore thousands of digitized artifacts, photographs, and documents. Choose a collection, browse unique items, and save your favorites for future reference.</p>
 
 {#if topicFacet || formatFacet}
   <div class="mb-4 flex flex-wrap gap-4">
