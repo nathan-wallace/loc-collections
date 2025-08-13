@@ -2,6 +2,7 @@
   import SaveButton from './SaveButton.svelte';
   import type { ResultItem, ItemSummary, CollectionSummary } from '$lib/types';
   import { bestImageFrom } from '$lib/api';
+  import AudioIcon from './AudioIcon.svelte';
   import { base } from '$app/paths';
   export let item!: ResultItem;
   let thumb: string | undefined;
@@ -9,6 +10,7 @@
   let summary: ItemSummary | CollectionSummary;
   let href: string;
   let itemDate: string | null;
+  let isAudio = false;
 
   $: {
     thumb = bestImageFrom(item);
@@ -34,6 +36,8 @@
       ? `${base}/collections/${(summary as CollectionSummary).slug}`
       : `${base}/item/${encodeURIComponent(btoa(summary.id))}`;
     itemDate = isCollection ? null : (summary as ItemSummary).date;
+    const formats = (item.format ?? []).concat(item.online_format ?? []);
+    isAudio = formats.some((f: string) => /audio|sound recording/i.test(f));
   }
 </script>
 <article class="overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/80 shadow-sm transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg">
@@ -55,6 +59,16 @@
         <p class="text-xs text-neutral-600 dark:text-neutral-400">{itemDate}</p>
       {/if}
     </a>
-    <SaveButton item={summary} />
+    <div class="flex items-center gap-2">
+      {#if isAudio}
+        <span class="group/audio relative inline-flex" aria-label="Audio Recording">
+          <AudioIcon />
+          <span class="pointer-events-none absolute left-1/2 bottom-full mb-2 -translate-x-1/2 rounded bg-neutral-900 px-2 py-1 text-xs text-white opacity-0 transition-opacity duration-200 group-hover/audio:opacity-100 group-focus-within/audio:opacity-100">
+            Audio Recording
+          </span>
+        </span>
+      {/if}
+      <SaveButton item={summary} />
+    </div>
   </div>
 </article>

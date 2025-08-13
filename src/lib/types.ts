@@ -21,6 +21,8 @@ export interface ResultItem {
   title?: string;
   date?: string;
   image_url?: string[];
+  format?: string[];
+  online_format?: string[];
   subject?: string[];
   contributor?: string[];
   partof?: string[];
