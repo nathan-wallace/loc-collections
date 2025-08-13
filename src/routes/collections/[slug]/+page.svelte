@@ -13,6 +13,7 @@
   let loading = false;
   let done = !next;
   let sentinel: HTMLDivElement;
+  let showFacets = false;
   async function loadMore() {
     if (!next || loading) return;
     loading = true;
@@ -60,11 +61,11 @@
       </select>
     </label>
     {#if data.data.facets}
-      <button class="rounded-lg border px-3 py-1" on:click={() => document.getElementById('facet-panel')?.scrollIntoView({ behavior: 'smooth' })}>Facets</button>
+      <button class="rounded-lg border px-3 py-1" on:click={() => (showFacets = !showFacets)}>Facets</button>
     {/if}
   </div>
 </header>
-{#if data.data.facets}
+{#if showFacets && data.data.facets}
   <section id="facet-panel" class="mb-6">
     <FacetFilter facets={data.data.facets} />
   </section>
