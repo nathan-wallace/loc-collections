@@ -14,6 +14,12 @@
   let done = !next;
   let sentinel: HTMLDivElement;
   let showFacets = false;
+
+  $: {
+    items = data.data.results ?? [];
+    next = data.data.pagination?.next ?? null;
+    done = !next;
+  }
   async function loadMore() {
     if (!next || loading) return;
     loading = true;
