@@ -3,6 +3,8 @@
   import ItemCard from '$components/ItemCard.svelte';
   import FacetFilter from '$components/FacetFilter.svelte';
   import Skeletons from '$components/Skeletons.svelte';
+  import CollectionDetails from '$components/CollectionDetails.svelte';
+  import { bestImageFrom } from '$lib/api';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { page } from '$app/state';
@@ -14,6 +16,12 @@
   let done = !next;
   let sentinel: HTMLDivElement;
   let showFacets = false;
+  let collectionTitle = data.data.title ?? params.slug;
+  let collectionDescription: string | null = Array.isArray((data.data as any).description)
+    ? (data.data as any).description[0]
+    : ((data.data as any).description ?? null);
+  let collectionId = (data.data as any).id ?? data.apiUrl.split('?')[0];
+  let hero = bestImageFrom(data.data as any);
 
   $: {
     items = data.data.results ?? [];
@@ -53,6 +61,13 @@
   }
   void params;
 </script>
+<CollectionDetails
+  id={collectionId}
+  slug={params.slug}
+  title={collectionTitle}
+  description={collectionDescription}
+  hero={hero}
+/>
 <header class="mb-4 flex items-center justify-between gap-3">
   <h1 class="text-xl font-semibold">Collection Items</h1>
   <div class="flex items-center gap-2">
