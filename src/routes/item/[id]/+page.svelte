@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ItemResponse } from '$lib/types';
+  import type { ItemResponse, ItemResource } from '$lib/types';
   import SaveButton from '$components/SaveButton.svelte';
   import { base } from '$app/paths';
   export let data: { data: ItemResponse; cover: string | null; canonical: string };
@@ -7,7 +7,30 @@
   const item = data.data.item ?? (data.data as any);
   const title = item?.title ?? 'Untitled';
   const summary = { id: data.canonical, title, thumb: data.cover ?? undefined, date: item?.date ?? null };
-  const resources: { url?: string }[] | undefined = (data.data as any).resources;
+  const resources: ItemResource[] | undefined = (data.data as any).resources;
+  let audioUrl: string | null = null;
+  if (resources) {
+    outer: for (const r of resources) {
+      if (r.url && /\.(mp3|m4a|wav|ogg|flac)(\?|$)/i.test(r.url)) {
+        audioUrl = r.url;
+        break;
+      }
+      const files = r.files as any;
+      if (Array.isArray(files)) {
+        for (const group of files) {
+          const arr = Array.isArray(group) ? group : [group];
+          for (const f of arr) {
+            const url = f?.url as string | undefined;
+            const mime = f?.mimetype as string | undefined;
+            if (url && (/\.(mp3|m4a|wav|ogg|flac)(\?|$)/i.test(url) || mime?.startsWith('audio/'))) {
+              audioUrl = url;
+              break outer;
+            }
+          }
+        }
+      }
+    }
+  }
   void params;
 </script>
 <a class="text-sm opacity-70 hover:opacity-100" href={document.referrer || base + '/'}>← Back</a>
@@ -19,6 +42,9 @@
   <a href={`${base}/viewer/${encodeURIComponent(btoa(summary.id))}`} class="block my-4" aria-label="Open fullscreen viewer">
     <img src={data.cover} alt={title} class="w-full max-h-[60vh] object-contain rounded-xl bg-neutral-100 dark:bg-neutral-800" />
   </a>
+{/if}
+{#if audioUrl}
+  <audio class="w-full my-4" controls src={audioUrl}></audio>
 {/if}
 <section class="grid md:grid-cols-3 gap-6 mt-4">
   <div class="md:col-span-2 space-y-3">
