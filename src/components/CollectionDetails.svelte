@@ -6,6 +6,7 @@
   export let title: string;
   export let description: string | null = null;
   export let hero: string | null = null;
+  export let metadata: Record<string, string[]> = {};
   let summary: CollectionSummary;
   $: summary = {
     id: id.replace('http://', 'https://'),
@@ -29,6 +30,17 @@
     </div>
     {#if description}
       <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">{description}</p>
+    {/if}
+    {#if Object.keys(metadata).length}
+      <dl
+        class="grid gap-x-2 gap-y-1 text-sm text-neutral-700 dark:text-neutral-300"
+        style="grid-template-columns: auto 1fr;"
+      >
+        {#each Object.entries(metadata) as [k, v]}
+          <dt class="font-medium capitalize">{k}</dt>
+          <dd>{v.join(', ')}</dd>
+        {/each}
+      </dl>
     {/if}
   </div>
 </section>
