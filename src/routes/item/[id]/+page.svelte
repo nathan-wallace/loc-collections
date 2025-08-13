@@ -8,22 +8,26 @@
   const title = item?.title ?? 'Untitled';
   const summary = { id: data.canonical, title, thumb: data.cover ?? undefined, date: item?.date ?? null };
   const resources: ItemResource[] | undefined = (data.data as any).resources;
+  const AUDIO_EXT = /\.(mp3|m4a|wav|ogg|flac|mp4|aiff?|aac)(\?|$)/i;
+  const isAudio = (url?: string, mime?: string) =>
+    Boolean((url && AUDIO_EXT.test(url)) || mime?.startsWith('audio/'));
   let audioUrl: string | null = null;
   if (resources) {
     outer: for (const r of resources) {
-      if (r.url && /\.(mp3|m4a|wav|ogg|flac)(\?|$)/i.test(r.url)) {
-        audioUrl = r.url;
+      if (isAudio(r.url, (r as any).mimetype)) {
+        audioUrl = r.url!;
         break;
       }
-      const files = r.files as any;
-      if (Array.isArray(files)) {
-        for (const group of files) {
+      const files = (r as any).files;
+      if (files) {
+        const groups = Array.isArray(files) ? files : [files];
+        for (const group of groups) {
           const arr = Array.isArray(group) ? group : [group];
           for (const f of arr) {
             const url = f?.url as string | undefined;
             const mime = f?.mimetype as string | undefined;
-            if (url && (/\.(mp3|m4a|wav|ogg|flac)(\?|$)/i.test(url) || mime?.startsWith('audio/'))) {
-              audioUrl = url;
+            if (isAudio(url, mime)) {
+              audioUrl = url!;
               break outer;
             }
           }
