@@ -4,6 +4,9 @@
   import { goto } from '$app/navigation';
 
   export let facets: Facet[] = [];
+  $: visibleFacets = facets.filter((f) =>
+    (f.title ?? f.name ?? f.facet ?? '') !== 'Access Condition'
+  );
 
   function applyFacet(f: FacetFilter) {
     const href = f.on ?? f.off;
@@ -23,29 +26,29 @@
     goto(`${page.url.pathname}${q ? `?${q}` : ''}`);
   }
 </script>
-{#if facets && facets.length}
+{#if visibleFacets && visibleFacets.length}
   <ul class="space-y-4">
-    {#each facets as facet, i}
+    {#each visibleFacets as facet, i}
       {#if facet.filters?.length}
-        <li>
-          <details class="rounded border" data-facet={i}>
-            <summary class="cursor-pointer select-none px-3 py-2">
-              {facet.title ?? facet.name ?? facet.facet ?? 'Facet'}
-            </summary>
-            <div class="p-3 flex flex-wrap gap-2">
-              {#each facet.filters as f}
-                <button
-                  class="text-sm rounded-full border px-3 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800"
-                  class:bg-neutral-200={!f.on}
-                  class:dark\:bg-neutral-700={!f.on}
-                  on:click={() => applyFacet(f)}
-                  aria-label={`Filter: ${f.title}`}
-                >
-                  {f.title} <span class="opacity-60">({f.count})</span>
-                </button>
-              {/each}
-            </div>
-          </details>
+        <li class="rounded border" data-facet={i}>
+          <h2 class="px-3 py-2 font-semibold">
+            {facet.title ?? facet.name ?? facet.facet ?? 'Facet'}
+          </h2>
+          <div class="p-3 flex flex-wrap gap-2">
+            {#each facet.filters as f}
+              <button
+                class="text-sm rounded-full border px-3 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                class:bg-neutral-200={!f.on}
+                class:dark\:bg-neutral-700={!f.on}
+                class:font-semibold={!f.on}
+                aria-pressed={!f.on}
+                on:click={() => applyFacet(f)}
+                aria-label={`Filter: ${f.title}`}
+              >
+                {f.title} <span class="opacity-60">({f.count})</span>
+              </button>
+            {/each}
+          </div>
         </li>
       {/if}
     {/each}
