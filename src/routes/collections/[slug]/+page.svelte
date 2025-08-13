@@ -16,17 +16,24 @@
   let done = !next;
   let sentinel: HTMLDivElement;
   let showFacets = false;
-  let collectionTitle = data.data.title ?? params.slug;
+  let collectionTitle = data.data.title ?? items[0]?.partof?.[0] ?? params.slug;
   let collectionDescription: string | null = Array.isArray((data.data as any).description)
     ? (data.data as any).description[0]
     : ((data.data as any).description ?? null);
   let collectionId = (data.data as any).id ?? data.apiUrl.split('?')[0];
   let hero = bestImageFrom(data.data as any);
+  let metadata: Record<string, string[]> = {};
 
   $: {
     items = data.data.results ?? [];
     next = data.data.pagination?.next ?? null;
     done = !next;
+    const raw = data.data as any;
+    metadata = {};
+    for (const key of ['subject', 'format', 'partof']) {
+      const v = raw[key];
+      if (Array.isArray(v) && v.length) metadata[key] = v;
+    }
   }
   async function loadMore() {
     if (!next || loading) return;
@@ -67,6 +74,7 @@
   title={collectionTitle}
   description={collectionDescription}
   hero={hero}
+  metadata={metadata}
 />
 <header class="mb-4 flex items-center justify-between gap-3">
   <h1 class="text-xl font-semibold">Collection Items</h1>
