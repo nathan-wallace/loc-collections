@@ -17,17 +17,26 @@
   });
 </script>
 <svelte:head>
-  <title>LOC Collections</title>
+  <title>Library of Congress Collections</title>
   <meta name="description" content="Explore thousands of digitized artifacts, photographs, and documents from the Library of Congress." />
   <link rel="canonical" href="https://nathan-wallace.github.io/loc-collections/" />
+  
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LOC Collections" />
   <meta property="og:title" content="LOC Collections" />
   <meta property="og:description" content="Explore thousands of digitized artifacts, photographs, and documents from the Library of Congress." />
   <meta property="og:url" content="https://nathan-wallace.github.io/loc-collections/" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://nathan-wallace.github.io/loc-collections/og-image.png" />
+  <meta property="og:image:width" content="1024" />
+  <meta property="og:image:height" content="1024" />
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="LOC Collections" />
   <meta name="twitter:description" content="Explore thousands of digitized artifacts, photographs, and documents from the Library of Congress." />
+  <meta name="twitter:image" content="https://nathan-wallace.github.io/loc-collections/og-image.png" />
+  
   <script type="application/ld+json">
     {JSON.stringify({
       '@context': 'https://schema.org',
@@ -38,6 +47,7 @@
     })}
   </script>
 </svelte:head>
+
 <svelte:window on:keydown={(e) => { if (e.key === 'Escape') history.state && history.back(); }} />
 <div class="flex min-h-screen flex-col bg-gradient-to-b from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-950">
   <header class="sticky top-0 z-40 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800 shadow-sm">
